@@ -1,3 +1,16 @@
+/*! Fast vint u32 encoding for rust. Uses at most 5 bytes.
+
+# Examples
+```
+use vint32::encode_varint_into;
+let mut output = vec![];
+encode_varint_into(&mut output, 50);	
+assert_eq!(output.len(), 1);
+
+```
+
+*/
+
 pub mod iterator;
 pub mod vint_array;
 
@@ -8,7 +21,6 @@ use std::io::Write;
 /// Encode a `vint32` unsigned 32-bit integer into a vec.
 ///
 /// Accepts a mutable reference to a `value`.
-/// Upon success, value will be incremented by the number of bytes used to encode the u32.
 #[inline]
 pub fn encode_varint_into(output: &mut Vec<u8>, mut value: u32) {
     let do_one = |output: &mut Vec<u8>, value: &mut u32| {
@@ -46,7 +58,6 @@ pub fn encode_varint_into(output: &mut Vec<u8>, mut value: u32) {
 /// Encode a `vint32` unsigned 32-bit integer into a `Write`.
 ///
 /// Accepts a mutable reference to a `value`.
-/// Upon success, value will be incremented by the number of bytes used to encode the u32.
 #[inline]
 pub fn encode_varint_into_writer<W: Write>(mut output: W, mut value: u32) -> Result<(), io::Error> {
     let do_one = |output: &mut W, value: &mut u32| -> Result<(), io::Error> {
