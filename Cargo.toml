@@ -5,7 +5,7 @@ authors = ["Pascal Seitz <pascal.seitz@gmail.com>"]
 edition = "2018"
 description = "fast vint u32 encoding for rust"
 license = "MIT"
-keywords  = ["vint", "encoding", "integer", "u32", "varint", "vlq"]
+keywords  = ["vint", "encoding", "integer", "u32", "varint"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
