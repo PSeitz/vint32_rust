@@ -1,8 +1,11 @@
 [package]
 name = "vint32"
 version = "0.1.0"
-authors = ["pascal"]
+authors = ["Pascal Seitz <pascal.seitz@gmail.com>"]
 edition = "2018"
+description = "fast vint u32 encoding for rust"
+license = "MIT"
+keywords  = ["vint", "encoding", "integer", "u32", "varint", "vlq"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

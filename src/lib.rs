@@ -1,8 +1,6 @@
 pub mod iterator;
 pub mod vint_array;
 
-use crate::iterator::VintArrayIterator;
-use crate::vint_array::VIntArray;
 use std::io;
 use std::io::Read;
 use std::io::Write;
@@ -88,6 +86,7 @@ pub fn encode_varint_into_writer<W: Write>(mut output: W, mut value: u32) -> Res
 
 #[test]
 fn test_varint() {
+	use crate::iterator::VintArrayIterator;
     let mut sink = vec![];
     encode_varint_into(&mut sink, 5);
     encode_varint_into(&mut sink, 127);
@@ -216,6 +215,7 @@ pub fn decode_from_reader<R: Read>(r: &mut R) -> Option<u32> {
 
 #[test]
 fn test_encode_decode_vint_very_large_number() {
+	use crate::vint_array::VIntArray;
     let mut vint = VIntArray::default();
     let dat = vec![4_000_000_000];
     vint.encode_vals(&dat);
@@ -225,6 +225,8 @@ fn test_encode_decode_vint_very_large_number() {
 
 #[test]
 fn test_serialize() {
+	use crate::iterator::VintArrayIterator;
+	use crate::vint_array::VIntArray;
     let mut vint = VIntArray::default();
     let dat = vec![4_000_000_000];
     vint.encode_vals(&dat);
