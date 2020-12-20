@@ -173,6 +173,7 @@ pub fn decode_varint<I: Iterator<Item = u8>>(input: &mut I) -> Option<u32> {
 
 /// Decode a `vint32`-encoded unsigned 32-bit integer from a bytes slice.
 /// Maximum space required are 5 bytes.
+/// `pos` will be incremented by the number of bytes used to dencode the u32.
 ///
 /// Will panic if incorrectly encoded.
 #[inline]
