@@ -11,8 +11,11 @@ assert_eq!(output.len(), 1);
 
 */
 
+#[cfg(feature = "common-encoding")]
+pub mod common_encode;
 pub mod iterator;
 pub mod vint_array;
+pub mod util;
 
 use std::io;
 use std::io::Read;
@@ -173,6 +176,7 @@ pub fn decode_varint<I: Iterator<Item = u8>>(input: &mut I) -> Option<u32> {
 
 /// Decode a `vint32`-encoded unsigned 32-bit integer from a bytes slice.
 /// Maximum space required are 5 bytes.
+/// `pos` will be used to access the pos in the slice.
 /// `pos` will be incremented by the number of bytes used to dencode the u32.
 ///
 /// Will panic if incorrectly encoded.
