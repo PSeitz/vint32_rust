@@ -1,11 +1,12 @@
 [package]
 name = "vint32"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Pascal Seitz <pascal.seitz@gmail.com>"]
 edition = "2018"
 description = "fast vint u32 encoding"
 license = "MIT"
 keywords  = ["vint", "encoding", "integer", "compression", "varint"]
+include = ["src/**/*", "README.md"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

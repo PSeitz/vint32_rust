@@ -21,11 +21,12 @@ use std::io;
 use std::io::Read;
 use std::io::Write;
 
-/// Encode a `vint32` unsigned 32-bit integer into a vec.
+/// `vint32` encode a unsigned 32-bit integer into a vec.
 ///
-/// Accepts a mutable reference to a `value`.
+/// returns number of bytes written
+///
 #[inline]
-pub fn encode_varint_into(output: &mut Vec<u8>, mut value: u32) {
+pub fn encode_varint_into(output: &mut Vec<u8>, mut value: u32) -> u8 {
     let do_one = |output: &mut Vec<u8>, value: &mut u32| {
         output.push(((*value & 127) | 128) as u8);
         *value >>= 7;
@@ -37,32 +38,38 @@ pub fn encode_varint_into(output: &mut Vec<u8>, mut value: u32) {
     if value < 1 << 7 {
         //128
         do_last(output, value);
+        1
     } else if value < 1 << 14 {
         do_one(output, &mut value);
         do_last(output, value);
+        2
     } else if value < 1 << 21 {
         do_one(output, &mut value);
         do_one(output, &mut value);
         do_last(output, value);
+        3
     } else if value < 1 << 28 {
         do_one(output, &mut value);
         do_one(output, &mut value);
         do_one(output, &mut value);
         do_last(output, value);
+        4
     } else {
         do_one(output, &mut value);
         do_one(output, &mut value);
         do_one(output, &mut value);
         do_one(output, &mut value);
         do_last(output, value);
+        5
     }
 }
 
-/// Encode a `vint32` unsigned 32-bit integer into a `Write`.
+/// `vint32` encode a unsigned 32-bit integer into a vec.
 ///
-/// Accepts a mutable reference to a `value`.
+/// returns number of bytes written
+///ue`.
 #[inline]
-pub fn encode_varint_into_writer<W: Write>(mut output: W, mut value: u32) -> Result<(), io::Error> {
+pub fn encode_varint_into_writer<W: Write>(mut output: W, mut value: u32) -> Result<u8, io::Error> {
     let do_one = |output: &mut W, value: &mut u32| -> Result<(), io::Error> {
         output.write_all(&[((*value & 127) | 128) as u8])?;
         *value >>= 7;
@@ -76,26 +83,30 @@ pub fn encode_varint_into_writer<W: Write>(mut output: W, mut value: u32) -> Res
     if value < 1 << 7 {
         //128
         do_last(&mut output, value)?;
+        Ok(1)
     } else if value < 1 << 14 {
         do_one(&mut output, &mut value)?;
         do_last(&mut output, value)?;
+        Ok(2)
     } else if value < 1 << 21 {
         do_one(&mut output, &mut value)?;
         do_one(&mut output, &mut value)?;
         do_last(&mut output, value)?;
+        Ok(3)
     } else if value < 1 << 28 {
         do_one(&mut output, &mut value)?;
         do_one(&mut output, &mut value)?;
         do_one(&mut output, &mut value)?;
         do_last(&mut output, value)?;
+        Ok(4)
     } else {
         do_one(&mut output, &mut value)?;
         do_one(&mut output, &mut value)?;
         do_one(&mut output, &mut value)?;
         do_one(&mut output, &mut value)?;
         do_last(&mut output, value)?;
+        Ok(5)
     }
-    Ok(())
 }
 
 #[test]
